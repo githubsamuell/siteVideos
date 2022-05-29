@@ -7,7 +7,7 @@ export const registerUserSchema = {
     }),
     email: string({
       required_error: "email is required",
-    }),
+    }).email("must be a valid email"),
     password: string({
       required_error: "password is required",
     })
@@ -22,4 +22,4 @@ export const registerUserSchema = {
   }),
 };
 
-export type registerUserBody = TypeOf<typeof registerUserSchema.body>
+export type registerUserBody = TypeOf<typeof registerUserSchema.body>;

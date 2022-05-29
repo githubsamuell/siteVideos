@@ -4,13 +4,16 @@ import logger from "../../utils/logger";
 import { registerUserBody } from "./user.schema";
 import { createUser } from "./user.service";
 
-export async function registerUserHandler(req: Request<{}, {}, registerUserBody>, res: Response) {
+export async function registerUserHandler(
+  req: Request<{}, {}, registerUserBody>,
+  res: Response
+) {
   const { username, email, password } = req.body;
 
-  logger.info(req.body)
+  logger.info(req.body);
 
   try {
-     await createUser({ username, email, password });
+    await createUser({ username, email, password });
 
     return res.status(StatusCodes.CREATED).send("user created sucessfully");
   } catch (error) {
