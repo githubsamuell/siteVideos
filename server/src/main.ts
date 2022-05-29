@@ -1,23 +1,27 @@
 import express from "express";
+import { connectToDatabase, disconnectFromDatabase } from "./utils/database";
+import logger from "./utils/logger";
 
 const PORT = process.env.PORT || 4000;
 const app = express();
 
-const server = app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
+const server = app.listen(PORT, async () => {
+  await connectToDatabase();
+  logger.info(`Server is running at http://localhost:${PORT}`);
 });
 
 const signals = ["SIGTERM", "SIGINT"];
 
 function gracefullShutdown(signal: string) {
   process.on(signal, async () => {
-    console.log("GoodBye, got the signal", signal);
+    logger.info("GoodBye, got the signal", signal);
 
     server.close;
-
     //disconnect from db
 
-    console.log("My worker here is done");
+    await disconnectFromDatabase();
+
+    logger.info("My worker here is done");
 
     process.exit(0);
   });
